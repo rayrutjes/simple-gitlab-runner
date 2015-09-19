@@ -4,13 +4,12 @@ This image registers and runs a single gitlab runner.
 
 If you need multiple runners, simply start multiple containers.
 
-We have mainly being using this images to test projects by building running docker containers.
+The usage examples below focus on running this container with the necessary configuration to let you
+spawn docker containers from inside it.
 
-The usage examples below focus on running this image with the necessary configuration to let you
-spawn docker images from within this image.
+Note that we share the docker.sock instead of using some dind image. please read [this blog post](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) to understand our motivations to avoid Docker in Docker strategy.
 
-Note that we share the docker.sock instead of using some dind image. please read [this blog](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) post to understand our motivations to avoid Docker in Docker strategy.
-
+Be aware that images are built in the host. This is great because it allows you to share the images cache and run your builds faster. Take care to you always include dynamic tags to your inner docker builds so that parrel builds don't conflict.
 
 Manual usage example
 -------------
@@ -25,11 +24,11 @@ gitlab-runner \
 -d 'Your Runner Name' \
 -t 'your, tags'
 ```
+All the command arguments are proxied to the `gitlab-runner register -n`. For more information on available options check the [official documentation of the gitlab runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/tree/master/docs).
 
 
-
-Volumes
--------
+Volumes explanation
+-------------------
 Mount the docker socket so that builds can spawn docker containers through the host's docker.
 ```
 /var/run/docker.sock:/var/run/docker.sock
