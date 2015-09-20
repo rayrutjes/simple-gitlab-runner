@@ -9,7 +9,9 @@ spawn docker containers from inside it.
 
 Note that we share the docker.sock instead of using some dind image. please read [this blog post](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) to understand our motivations to avoid Docker in Docker strategy.
 
-Be aware that images are built in the host. This is great because it allows you to share the images cache and run your builds faster. Take care to you always include dynamic tags to your inner docker builds so that parrel builds don't conflict.
+Be aware that images are built in the host. This is great because it allows you to share the images cache and run your builds faster. Take care to you always include dynamic tags to your inner docker builds so that parallel builds don't conflict.
+
+Also take note that if you use docker-compose in your tests, you would need to ensure that concurrent builds don't conflict. Actually, gitlab ci automatically puts your current build in a folder with the name of your project. Docker-compose will use this folder name to name your images and containers. If you run multiple containers of this image on the same host and you want to use docker-compose, you will need to find a way to isolate the builds. Please feel free to contribute on the subject if you have an idea. 
 
 Manual usage example
 -------------
