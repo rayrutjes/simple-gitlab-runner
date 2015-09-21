@@ -1,5 +1,6 @@
 Fully dockerized Gitlab Runner
 ------------------------------
+[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
 This image registers and runs a single gitlab runner.
 
 If you need multiple runners, simply start multiple containers.
@@ -11,7 +12,7 @@ Note that we share the docker.sock instead of using some dind image. please read
 
 Be aware that images are built in the host. This is great because it allows you to share the images cache and run your builds faster. Take care to you always include dynamic tags to your inner docker builds so that parallel builds don't conflict.
 
-Also take note that if you use docker-compose in your tests, you would need to ensure that concurrent builds don't conflict. Actually, gitlab ci automatically puts your current build in a folder with the name of your project. Docker-compose will use this folder name to name your images and containers. If you run multiple containers of this image on the same host and you want to use docker-compose, you will need to find a way to isolate the builds. Please feel free to contribute on the subject if you have an idea. 
+Also take note that if you use docker-compose in your tests, you would need to ensure that concurrent builds don't conflict. Actually, gitlab ci automatically puts your current build in a folder with the name of your project. Docker-compose will use this folder name to name your images and containers. If you run multiple containers of this image on the same host and you want to use docker-compose, you will need to find a way to isolate the builds. Please feel free to contribute on the subject if you have an idea.
 
 Manual usage example
 -------------
@@ -20,7 +21,7 @@ docker run -d --name gitlab-runner \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v `which docker`:`which docker` \
 -v /home/gitlab-runner:/home/gitlab-runner \
-gitlab-runner \
+rayrutjes/simple-gitlab-runner \
 -u https://ci.gitlab.com/ \
 -r yourregistrationtoken \
 -d 'Your Runner Name' \

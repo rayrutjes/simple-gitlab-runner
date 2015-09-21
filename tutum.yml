@@ -1,0 +1,8 @@
+gitlab_simple_runner:
+  image: 'rayrutjes/simple-gitlab-runner:latest'
+  restart: always
+  command: -u https://ci.gitlab.com/ -r yourregistrationtoken -d 'Your Runner Name' -t 'your, tags'
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/docker:/usr/bin/docker
+    - /home/gitlab-runner:/home/gitlab-runner
